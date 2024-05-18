@@ -93,3 +93,14 @@ function selectAnswers(selectedButton) {
     }
   }, 1000); // Adjust delay as needed
 }
+
+function setStatusClass(element, correct) {
+  clearStatusClass(element);
+  if (correct) {
+    element.classList.toggle('correct');
+  }
+}
+function clearStatusClass(element) {
+  element.classList.remove('correct');
+  element.classList.remove('wrong');
+}
