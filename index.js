@@ -56,4 +56,40 @@ function startGame() {
   shuffledQuestions = questions.sort(() => Math.random() - 0.5);
   currentQuestionsIndex = 0;
   questionContainer.classList.remove('hide');
+  setNextQuestion();
+}
+
+// displaying questions and answers
+
+function showQuestion(question) {
+  questionElement.innerText = question.question;
+  question.answers.forEach((answer) => {
+    const button = document.createElement('button');
+    button.innerText = answer.text;
+    button.classList.add('btn');
+    if (answer.correct) {
+      button.dataset.correct = answer.correct;
+    }
+    button.addEventListener('click', () => selectAnswers(button));
+    answerButtonElement.appendChild(button);
+  });
+}
+
+// refining answer selection
+
+function selectAnswers(selectedButton) {
+  Array.from(answerButtonElement.children).forEach((button) => {
+    button.disabled = true;
+    setStatusClass(button, button.dataset.correct);
+  });
+
+  const correct = selectedButton.dataset.correct;
+  setStatusClass(selectedButton, correct);
+
+  // Delay revealing the "Next" button to allow users to review their choice
+  setTimeout(() => {
+    if (shuffledQuestions.length > currentQuestionIndex + 1) {
+      nextButton.classList.remove('hide');
+    }
+  }, 1000); // Adjust delay as needed
 }
